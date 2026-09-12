@@ -19,6 +19,7 @@ PORT_DATABASE = {
     "Zanzibar": {"lat": -6.1612, "lon": 39.1864, "tz": "Africa/Nairobi", "country": "Tanzania"},
     "Port Victoria": {"lat": -4.6222, "lon": 55.4514, "tz": "Indian/Mahe", "country": "Seychelles"},
     "Diego Suarez": {"lat": -12.2725, "lon": 49.2892, "tz": "Indian/Antananarivo", "country": "Madagascar"},
+    "Toamasina": {"lat": -18.1492, "lon": 49.4023, "tz": "Indian/Antananarivo", "country": "Madagascar"},
     "Mogadishu": {"lat": 2.0469, "lon": 45.3182, "tz": "Africa/Mogadishu", "country": "Somalia"},
     "Kismayo": {"lat": -0.3582, "lon": 42.5454, "tz": "Africa/Mogadishu", "country": "Somalia"},
     "Bosaso": {"lat": 11.2842, "lon": 49.1816, "tz": "Africa/Mogadishu", "country": "Somalia"},

@@ -34,6 +34,12 @@ PORT_DATABASE = {
         "lon": 49.2892,
         "tz": "Indian/Antananarivo",
     },
+    "toamasina": {
+        "name": "Port of Toamasina (Madagascar)",
+        "lat": -18.1492,
+        "lon": 49.4023,
+        "tz": "Indian/Antananarivo",
+    },
     "mogadishu": {
         "name": "Port of Mogadishu (Somalia)",
         "lat": 2.0469,

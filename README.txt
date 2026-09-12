@@ -138,8 +138,9 @@ SUPPORTED PORTS
 ---------------
 The main planner includes ports in Kenya, Tanzania, Seychelles, Madagascar,
 Somalia, Comoros, and Mauritius, including Mombasa, Shimoni, Dar es Salaam,
-Zanzibar, Port Victoria, Diego Suarez, Mogadishu, Kismayo, Bosaso, Berbera,
-Marka (Merca), Eyl, Lamu, Malindi, Tanga, Pemba Island, Moroni, and Port Louis.
+Zanzibar, Port Victoria, Diego Suarez, Toamasina, Mogadishu, Kismayo, Bosaso,
+Berbera, Marka (Merca), Eyl, Lamu, Malindi, Tanga, Pemba Island, Moroni, and
+Port Louis.
 
 IMPORTANT NOTES
 ---------------

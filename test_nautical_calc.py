@@ -68,10 +68,13 @@ def test_somali_and_secondary_ports_are_available():
         "Tanga",
         "Shimoni",
         "Port Louis",
+        "Toamasina",
     ]:
         assert port_name in app.PORT_DATABASE
         assert -90 <= app.PORT_DATABASE[port_name]["lat"] <= 90
         assert -180 <= app.PORT_DATABASE[port_name]["lon"] <= 180
+
+    assert nautical_calc.PORT_DATABASE["toamasina"]["name"] == "Port of Toamasina (Madagascar)"
 
 
 def test_landlocked_ports_are_not_available():
