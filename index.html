@@ -1,0 +1,1915 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vincitory Farms — Fresh Produce & More</title>
+  <meta name="description"
+    content="Colorful, responsive site for farming and other products. Showcase produce, livestock, crafts, and contact info." />
+
+  <!-- Google Fonts Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      /* Color Palette: Emerald organic greens and clean accents */
+      --primary-h: 142;
+      --primary-s: 72%;
+      --primary-l: 29%;
+      --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+      --primary-light: hsl(var(--primary-h), var(--primary-s), 95%);
+      --primary-dark: hsl(var(--primary-h), var(--primary-s), 15%);
+
+      --accent-h: 24;
+      --accent-s: 95%;
+      --accent-l: 53%;
+      --accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+
+      --secondary-h: 343;
+      --secondary-s: 90%;
+      --secondary-l: 40%;
+      --secondary: hsl(var(--secondary-h), var(--secondary-s), var(--secondary-l));
+
+      --bg: #f4fcf7;
+      --bg-overlay: linear-gradient(rgba(244, 252, 247, 0.88), rgba(244, 252, 247, 0.88));
+      --card: rgba(255, 255, 255, 0.82);
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: rgba(15, 23, 42, 0.08);
+
+      --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.03);
+      --shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.12);
+
+      --radius-sm: 8px;
+      --radius: 16px;
+      --radius-lg: 24px;
+
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --blur: 12px;
+
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0a110c;
+      --bg-overlay: linear-gradient(rgba(10, 17, 12, 0.93), rgba(10, 17, 12, 0.93));
+      --card: rgba(18, 30, 22, 0.85);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --primary-light: hsl(var(--primary-h), var(--primary-s), 10%);
+      --glass-bg: rgba(18, 30, 22, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background-image: var(--bg-overlay), url('coffee_plantation_bg.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    /* Glassmorphism blur for containers */
+    .hero,
+    .card,
+    .testimonial,
+    .contact-form-container,
+    .contact-info-card,
+    footer {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* Header / Nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      background: var(--glass-bg);
+      border-bottom: 1px solid var(--glass-border);
+      transition: all 0.3s;
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      padding: 4px 0;
+      transition: color 0.2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--primary);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-outline:hover {
+      background: var(--border);
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
+    .cta {
+      background: linear-gradient(135deg, var(--primary), #10b981);
+      color: white;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Theme toggle styles */
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      transition: background-color 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--border);
+    }
+
+    /* Menu toggle / Hamburger */
+    .menu-toggle {
+      display: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 48px;
+      border-radius: var(--radius-lg);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: center;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-left h1 {
+      margin: 0 0 16px 0;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.1;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--text), var(--primary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-left p {
+      margin: 0 0 28px 0;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 580px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: var(--primary-light);
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .stat span {
+      color: var(--primary);
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+      display: block;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    .quick-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .quick-card {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quick-card img {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    /* Filters & Search section */
+    .filter-search-container {
+      max-width: 1200px;
+      margin: 40px auto 20px;
+      padding: 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* Products grid */
+    .section {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }
+
+    .section h2 {
+      margin: 0 0 24px 0;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+    }
+
+    .card .media {
+      width: 100%;
+      height: 180px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .media img {
+      transform: scale(1.06);
+    }
+
+    .fallback-icon {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      background: linear-gradient(135deg, var(--primary-light), var(--bg));
+      color: var(--primary);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid transparent;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px;
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+    }
+
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      transition: transform 0.3s, filter 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.02);
+      filter: brightness(1.05);
+    }
+
+    /* Testimonials */
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .testimonial {
+      background: var(--card);
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .testimonial::before {
+      content: '“';
+      position: absolute;
+      top: 10px;
+      left: 16px;
+      font-size: 4rem;
+      color: var(--primary-light);
+      font-family: serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .testimonial-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-style: italic;
+      color: var(--text);
+      margin: 12px 0 16px 0;
+      position: relative;
+    }
+
+    .testimonial-author {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+
+    /* Contact / Order */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+    }
+
+    .contact-form-container {
+      background: var(--card);
+      padding: 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-form-container p {
+      margin-top: 0;
+      margin-bottom: 24px;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .input,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      background: var(--card);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+
+    .contact-info-card {
+      background: var(--card);
+      padding: 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .info-item h4 {
+      margin: 0 0 6px 0;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .info-item p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 4px;
+      transition: all 0.2s;
+    }
+
+    .pill:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Cart drawer styles */
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      background: var(--card);
+      box-shadow: var(--shadow-lg);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border-left: 1px solid var(--border);
+    }
+
+    .cart-drawer.open {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-header h3 {
+      margin: 0;
+      font-weight: 800;
+      font-size: 1.3rem;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .close-cart:hover {
+      color: var(--text);
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .cart-item-price {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .qty-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .cart-item-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+      padding: 4px;
+    }
+
+    .cart-item-remove:hover {
+      color: var(--secondary);
+    }
+
+    .cart-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+      gap: 8px;
+    }
+
+    .cart-footer {
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+    }
+
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 140;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cart-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Floating Cart Trigger */
+    .cart-trigger {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #10b981);
+      color: white;
+      border: none;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      z-index: 99;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cart-trigger:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 12px 24px rgba(16, 185, 129, 0.3);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--accent);
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--card);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--card);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--primary);
+      font-weight: 600;
+      z-index: 200;
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      border-left-color: var(--secondary);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      padding: 60px 16px;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      max-width: 400px;
+      margin: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-subscribe {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-subscribe h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .footer-subscribe p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .subscribe-form {
+      display: flex;
+      gap: 8px;
+    }
+
+    .subscribe-form .input {
+      flex: 1;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 32px;
+        gap: 32px;
+      }
+
+      .hero-right {
+        order: 2;
+      }
+
+      .hero-left {
+        order: 1;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 24px;
+        height: 18px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 110;
+      }
+
+      .menu-toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--text);
+        border-radius: 2px;
+        transition: transform 0.3s, opacity 0.3s;
+      }
+
+      .menu-toggle.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+
+      nav ul {
+        position: fixed;
+        top: 0;
+        right: -280px;
+        width: 280px;
+        height: 100vh;
+        background: var(--card);
+        border-left: 1px solid var(--border);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 80px 32px 32px 32px;
+        gap: 20px;
+        z-index: 105;
+        transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: var(--shadow-lg);
+      }
+
+      nav ul.active {
+        right: 0;
+      }
+
+      nav a {
+        font-size: 1.1rem;
+        width: 100%;
+        display: block;
+      }
+
+      .nav-actions {
+        margin-right: 12px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav-actions .btn-outline {
+        display: none;
+      }
+
+      .hero-actions .cta,
+      .hero-actions .btn-outline {
+        width: 100%;
+        text-align: center;
+      }
+
+      .subscribe-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav">
+      <a class="brand" href="#">
+        <div class="logo">VF</div>
+        <div>
+          <div style="font-weight: 800; font-size: 1.1rem; line-height: 1.2;">Vincitory Farms</div>
+          <div style="font-size: 11px; color: var(--text-muted)">Farming & Local Products</div>
+        </div>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul id="navMenu">
+          <li><a href="#products" class="nav-link active">Products</a></li>
+          <li><a href="#gallery" class="nav-link">Gallery</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Theme Switcher -->
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <span class="sun-icon">☀️</span>
+          <span class="moon-icon">🌙</span>
+        </button>
+
+        <a class="btn-outline" href="#products">Shop</a>
+        <a class="cta" href="#contact">Order Now</a>
+
+        <!-- Hamburger Icon -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-left">
+        <h1>Fresh from our fields to your table</h1>
+        <p>Organic vegetables, fruits, dairy, and handcrafted farm products. Sustainable farming, fair prices, and fast
+          delivery in your area.</p>
+
+        <div class="hero-actions">
+          <a class="cta" href="#products">Browse Products</a>
+          <a class="btn-outline" href="#gallery">See Our Farm</a>
+        </div>
+
+        <div class="stats" aria-hidden="true">
+          <div class="stat">🌱 <span>120+</span> Varieties</div>
+          <div class="stat">🚚 <span>Same-day</span> Delivery</div>
+          <div class="stat">🤝 <span>Local</span> Partnerships</div>
+        </div>
+      </div>
+
+      <aside class="hero-right" aria-label="Highlights">
+        <div class="hero-image" style="background-image:url('vincitory_farms_hero.jpg');" role="img"
+          aria-label="Vincitory Farms agricultural field"></div>
+
+        <div class="quick-links">
+          <div class="quick-card">
+            <img src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=200&q=60"
+              alt="Vegetables">
+            <div>
+              <div style="font-weight: 800; font-size: 0.95rem;">Fresh Produce</div>
+              <div class="muted" style="font-size: 13px; color: var(--text-muted);">Seasonal fruits & veggies</div>
+            </div>
+          </div>
+
+          <div class="quick-card">
+            <img src="https://images.unsplash.com/photo-1516685018646-549d3b6b9f6b?auto=format&fit=crop&w=200&q=60"
+              alt="Dairy">
+            <div>
+              <div style="font-weight: 800; font-size: 0.95rem;">Dairy & Eggs</div>
+              <div class="muted" style="font-size: 13px; color: var(--text-muted);">Free-range & organic</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Search & Filter Controls -->
+    <div class="filter-search-container">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="productSearch" placeholder="Search fresh produce, eggs, honey..."
+          aria-label="Search products">
+      </div>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-category="all">All Items</button>
+        <button class="filter-btn" data-category="produce">Produce</button>
+        <button class="filter-btn" data-category="dairy">Dairy & Eggs</button>
+        <button class="filter-btn" data-category="crafts">Crafts & More</button>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <section id="products" class="section" aria-label="Products">
+      <h2>Featured Products</h2>
+      <div class="grid" id="productGrid">
+        <!-- Tomatoes -->
+        <article class="card" data-category="produce" data-name="heirloom tomatoes"
+          data-desc="perfect for salads and sauces. grown without pesticides.">
+          <div class="media">
+            <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=1200&q=80"
+              alt="Heirloom Tomatoes" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="fallback-icon" aria-hidden="true">🍅</div>
+          </div>
+
+          <div class="card-meta">
+            <div>
+              <h3 class="card-title">Heirloom Tomatoes</h3>
+              <div class="card-subtitle">Sweet, juicy, sun-ripened</div>
+            </div>
+            <div class="tag">KSh 120/kg</div>
+          </div>
+          <p class="card-desc">Perfect for salads and sauces. Grown without pesticides.</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Heirloom Tomatoes', 120, 'kg')">
+            <span>🛒</span> Add to Cart
+          </button>
+        </article>
+
+        <!-- Mangoes -->
+        <article class="card" data-category="produce" data-name="sweet mangoes"
+          data-desc="picked at peak ripeness and packed carefully.">
+          <div class="media">
+            <img src="https://images.unsplash.com/photo-1574226516831-e1dff420e8f8?auto=format&fit=crop&w=1200&q=80"
+              alt="Ripe Mangoes" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="fallback-icon" aria-hidden="true">🥭</div>
+          </div>
+
+          <div class="card-meta">
+            <div>
+              <h3 class="card-title">Sweet Mangoes</h3>
+              <div class="card-subtitle">Seasonal, aromatic</div>
+            </div>
+            <div class="tag">KSh 250/kg</div>
+          </div>
+          <p class="card-desc">Picked at peak ripeness and packed carefully.</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Sweet Mangoes', 250, 'kg')">
+            <span>🛒</span> Add to Cart
+          </button>
+        </article>
+
+        <!-- Eggs -->
+        <article class="card" data-category="dairy" data-name="free-range eggs"
+          data-desc="collected daily and quality-checked.">
+          <div class="media">
+            <img src="https://images.unsplash.com/photo-1502741126161-b048400d7c6f?auto=format&fit=crop&w=1200&q=80"
+              alt="Free-range Eggs" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="fallback-icon" aria-hidden="true">🥚</div>
+          </div>
+
+          <div class="card-meta">
+            <div>
+              <h3 class="card-title">Free-range Eggs</h3>
+              <div class="card-subtitle">Rich yolks, happy hens</div>
+            </div>
+            <div class="tag">KSh 20/pc</div>
+          </div>
+          <p class="card-desc">Collected daily and quality-checked.</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Free-range Eggs', 20, 'pc')">
+            <span>🛒</span> Add to Cart
+          </button>
+        </article>
+
+        <!-- Honey -->
+        <article class="card" data-category="crafts" data-name="raw honey"
+          data-desc="locally harvested from our apiaries.">
+          <div class="media">
+            <img src="https://images.unsplash.com/photo-1505577058444-a3dabf1c8f2f?auto=format&fit=crop&w=1200&q=80"
+              alt="Raw Honey" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="fallback-icon" aria-hidden="true">🍯</div>
+          </div>
+
+          <div class="card-meta">
+            <div>
+              <h3 class="card-title">Raw Honey</h3>
+              <div class="card-subtitle">Unprocessed, natural</div>
+            </div>
+            <div class="tag">KSh 600/500g</div>
+          </div>
+          <p class="card-desc">Locally harvested from our apiaries.</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Raw Honey', 600, '500g')">
+            <span>🛒</span> Add to Cart
+          </button>
+        </article>
+
+        <!-- NEW: Organic Milk -->
+        <article class="card" data-category="dairy" data-name="fresh organic milk"
+          data-desc="raw, creamy, pasteurized whole milk from local pasture cows.">
+          <div class="media">
+            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=1200&q=80"
+              alt="Organic Milk" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="fallback-icon" aria-hidden="true">🥛</div>
+          </div>
+
+          <div class="card-meta">
+            <div>
+              <h3 class="card-title">Organic Milk</h3>
+              <div class="card-subtitle">Creamy, pasteurized whole milk</div>
+            </div>
+            <div class="tag">KSh 150/L</div>
+          </div>
+          <p class="card-desc">Freshly pasteurized whole milk from grass-fed cows. No additives.</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Organic Milk', 150, 'L')">
+            <span>🛒</span> Add to Cart
+          </button>
+        </article>
+
+        <!-- NEW: Handwoven Basket -->
+        <article class="card" data-category="crafts" data-name="handwoven sisal basket"
+          data-desc="durable, beautiful artisan-crafted basket made from organic materials.">
+          <div class="media">
+            <img src="https://images.unsplash.com/photo-1598965646194-c782163fa211?auto=format&fit=crop&w=1200&q=80"
+              alt="Handwoven Basket" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+            <div class="fallback-icon" aria-hidden="true">🧺</div>
+          </div>
+
+          <div class="card-meta">
+            <div>
+              <h3 class="card-title">Handwoven Basket</h3>
+              <div class="card-subtitle">Local sisal, natural dyes</div>
+            </div>
+            <div class="tag">KSh 1,200/pc</div>
+          </div>
+          <p class="card-desc">Durable, gorgeous artisan-crafted storage or shopping basket.</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Handwoven Basket', 1200, 'pc')">
+            <span>🛒</span> Add to Cart
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="section" aria-label="Gallery">
+      <h2>Farm Gallery</h2>
+      <div class="gallery">
+        <img src="coffee_plantation_gallery.jpg" alt="Lush Coffee Plantation Hills">
+        <img src="cabbage man.webp" alt="Farmer Harvesting Cabbage">
+        <img src="harvesting time.png" alt="Farmer Harvesting Greens">
+        <img src="assorted veg.jpg" alt="Freshly Harvested Onions and Garlic">
+        <img src="ngombe.jpg" alt="Dairy Cattle on the Farm">
+        <img src="vincitory_farms_hero.jpg" alt="Vincitory Farms Agricultural Fields">
+      </div>
+    </section>
+
+    <!-- Testimonials & About -->
+    <section id="about" class="section" aria-label="About and Testimonials">
+      <h2>What Customers Say</h2>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="testimonial-text">"Freshest vegetables I've bought — delivery was fast and friendly."</div>
+          <div class="testimonial-author">Amina K.</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-text">"Great honey and eggs. Love supporting local farmers."</div>
+          <div class="testimonial-author">Joseph M.</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-text">"Beautiful handcrafted baskets — perfect for gifts."</div>
+          <div class="testimonial-author">Ruth N.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Order -->
+    <section id="contact" class="section" aria-label="Contact">
+      <h2>Contact & Orders</h2>
+      <div class="contact-grid">
+        <div class="contact-form-container">
+          <p>Place orders, request bulk pricing, or ask about farm visits. We deliver across Mombasa County and nearby
+            areas.</p>
+
+          <form id="contactForm" style="display:grid; gap: 16px;">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input class="input" id="name" name="name" placeholder="E.g., Jane Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone / WhatsApp</label>
+              <input class="input" id="phone" name="phone" placeholder="E.g., +254 700 000 000" required>
+            </div>
+            <div class="form-group">
+              <label for="item">Product or Request</label>
+              <input class="input" id="item" name="item" placeholder="E.g., 5kg mangoes, 2 trays of eggs">
+            </div>
+            <div class="form-group">
+              <label for="message">Delivery Details or Message</label>
+              <textarea class="input" id="message" name="message" rows="4"
+                placeholder="E.g., Deliver to Nyali, behind City Mall"></textarea>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap: wrap;">
+              <button type="submit" class="cta" style="flex:1;">Send Order Request</button>
+              <button type="button" class="btn-outline" onclick="copyPhone()">Call / WhatsApp</button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="contact-info-card">
+          <div class="info-item">
+            <h4>Visit or Pickup</h4>
+            <p>Vincitory Farms, Tudor Road, Mombasa</p>
+          </div>
+
+          <div class="info-item">
+            <h4>Direct Contact</h4>
+            <div>
+              <a class="pill" href="tel:+254700000000">📞 +254 700 000 000</a>
+            </div>
+            <div style="margin-top: 8px;">
+              <a class="pill" href="mailto:orders@vincitoryfarms.example">✉️ orders@vincitoryfarms.example</a>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <h4>Opening Hours</h4>
+            <p>Mon–Sat: 7:00 AM — 5:00 PM<br>Sunday: Closed</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Cart Toggle -->
+  <button class="cart-trigger" id="cartTrigger" onclick="toggleCart(true)" aria-label="Open shopping cart">
+    <span>🛒</span>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+
+  <!-- Shopping Cart Drawer -->
+  <div id="cartOverlay" class="cart-overlay" onclick="toggleCart(false)"></div>
+  <div id="cartDrawer" class="cart-drawer">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="close-cart" onclick="toggleCart(false)" aria-label="Close cart">&times;</button>
+    </div>
+
+    <div class="cart-items" id="cartItemsList">
+      <div class="cart-empty">
+        <span style="font-size: 2.5rem;">🛒</span>
+        <p>Your cart is empty</p>
+        <button class="btn-outline" onclick="toggleCart(false)" style="margin-top: 8px;">Continue Shopping</button>
+      </div>
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Subtotal:</span>
+        <span id="cartTotal">KSh 0</span>
+      </div>
+      <button class="cta" onclick="checkoutWhatsApp()"
+        style="width: 100%; display: flex; justify-content: center; gap: 8px;">
+        💬 Order via WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Toast Notification -->
+  <div id="toast" class="toast" role="alert"></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="font-weight: 800; font-size: 1.3rem; color: var(--primary);">Vincitory Farms</div>
+        <p>Sustainable farming, fresh local produce, and eco-friendly practices direct to Mombasa residents.</p>
+        <div class="footer-links">
+          <a class="pill" href="#products">Shop</a>
+          <a class="pill" href="#gallery">Gallery</a>
+          <a class="pill" href="#contact">Contact</a>
+        </div>
+      </div>
+
+      <div class="footer-subscribe">
+        <h4>Subscribe</h4>
+        <p>Get seasonal harvest updates and organic farming tips.</p>
+        <div class="subscribe-form">
+          <input class="input" id="subscribeEmail" type="email" placeholder="E.g., Jane@example.com"
+            aria-label="Email Address">
+          <button class="cta" onclick="subscribe()">Join List</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Vincitory Farms. All rights reserved.</div>
+      <div>Designed with care for local communities.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme Management
+    const themeToggle = document.getElementById('themeToggle');
+
+    // Check saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      showToast(`Switched to ${newTheme} mode!`);
+    });
+
+    // Mobile Hamburger Menu
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking nav link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        // Update active class
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        e.target.classList.add('active');
+
+        menuToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // Toast Notification utility
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      if (isError) {
+        toast.classList.add('error');
+      } else {
+        toast.classList.remove('error');
+      }
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    // Shopping Cart System
+    let cart = [];
+
+    // Try loading cart from localStorage
+    try {
+      const storedCart = localStorage.getItem('cart');
+      if (storedCart) {
+        cart = JSON.parse(storedCart);
+        updateCartUI();
+      }
+    } catch (e) {
+      console.error('Error loading cart', e);
+    }
+
+    function toggleCart(open) {
+      const drawer = document.getElementById('cartDrawer');
+      const overlay = document.getElementById('cartOverlay');
+      if (open) {
+        drawer.classList.add('open');
+        overlay.classList.add('open');
+      } else {
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+    }
+
+    function addToCart(name, price, unit) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, unit, quantity: 1 });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+      showToast(`Added ${name} to your cart!`);
+    }
+
+    function updateCartQty(name, amount) {
+      const item = cart.find(item => item.name === name);
+      if (!item) return;
+
+      item.quantity += amount;
+      if (item.quantity <= 0) {
+        cart = cart.filter(item => item.name !== name);
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function removeFromCart(name) {
+      cart = cart.filter(item => item.name !== name);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+      showToast('Item removed from cart.');
+    }
+
+    function updateCartUI() {
+      const badge = document.getElementById('cartBadge');
+      const itemsList = document.getElementById('cartItemsList');
+      const totalSpan = document.getElementById('cartTotal');
+
+      // Update badge count
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      badge.textContent = totalItems;
+
+      if (cart.length === 0) {
+        itemsList.innerHTML = `
+          <div class="cart-empty">
+            <span style="font-size: 2.5rem;">🛒</span>
+            <p>Your cart is empty</p>
+            <button class="btn-outline" onclick="toggleCart(false)" style="margin-top: 8px;">Continue Shopping</button>
+          </div>
+        `;
+        totalSpan.textContent = 'KSh 0';
+        return;
+      }
+
+      let cartHtml = '';
+      let subtotal = 0;
+
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+
+        cartHtml += `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <h4 class="cart-item-title">${item.name}</h4>
+              <div class="cart-item-price">KSh ${item.price}/${item.unit} &bull; Total: KSh ${itemTotal.toLocaleString()}</div>
+            </div>
+            <div class="cart-item-qty">
+              <button class="qty-btn" onclick="updateCartQty('${item.name}', -1)">-</button>
+              <span style="font-weight: 700;">${item.quantity}</span>
+              <button class="qty-btn" onclick="updateCartQty('${item.name}', 1)">+</button>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart('${item.name}')" aria-label="Remove item">&times;</button>
+          </div>
+        `;
+      });
+
+      itemsList.innerHTML = cartHtml;
+      totalSpan.textContent = `KSh ${subtotal.toLocaleString()}`;
+    }
+
+    function checkoutWhatsApp() {
+      if (cart.length === 0) {
+        showToast('Your cart is empty!', true);
+        return;
+      }
+
+      let text = 'Hello Vincitory Farms, I\'d like to place an order:\n\n';
+      let subtotal = 0;
+      cart.forEach(item => {
+        const total = item.price * item.quantity;
+        subtotal += total;
+        text += `- ${item.name} x ${item.quantity} ${item.unit} (KSh ${total.toLocaleString()})\n`;
+      });
+      text += `\n*Subtotal: KSh ${subtotal.toLocaleString()}*\n\nPlease let me know availability and delivery options!`;
+
+      const whatsappUrl = `https://wa.me/254700000000?text=${encodeURIComponent(text)}`;
+      window.open(whatsappUrl, '_blank');
+
+      // Clear cart after checkout
+      cart = [];
+      localStorage.removeItem('cart');
+      updateCartUI();
+      toggleCart(false);
+      showToast('Redirecting to WhatsApp! Order submitted.');
+    }
+
+    // Client-side Product Filters and Search
+    const productSearch = document.getElementById('productSearch');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('#productGrid .card');
+    const grid = document.getElementById('productGrid');
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    function filterProducts() {
+      let visibleCount = 0;
+
+      // Remove any existing no-results message
+      const existingMsg = document.querySelector('.no-results');
+      if (existingMsg) existingMsg.remove();
+
+      cards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        const name = card.getAttribute('data-name');
+        const desc = card.getAttribute('data-desc');
+
+        const matchesCategory = currentFilter === 'all' || category === currentFilter;
+        const matchesSearch = name.includes(searchQuery) || desc.includes(searchQuery);
+
+        if (matchesCategory && matchesSearch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (visibleCount === 0) {
+        const msg = document.createElement('div');
+        msg.className = 'no-results';
+        msg.innerHTML = `
+          <span style="font-size: 2rem; display:block; margin-bottom: 8px;">🔍</span>
+          No products match "${searchQuery}" in this category.
+        `;
+        grid.appendChild(msg);
+      }
+    }
+
+    productSearch.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      filterProducts();
+    });
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentFilter = e.target.getAttribute('data-category');
+        filterProducts();
+      });
+    });
+
+    // Contact Form Handler
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const item = document.getElementById('item').value.trim();
+      const msg = document.getElementById('message').value.trim();
+
+      if (!name || !phone) {
+        showToast('Please provide your name and phone number.', true);
+        return;
+      }
+
+      // Pre-fill WhatsApp message if they click WhatsApp checkout or simulate email
+      const submitText = `New Order from ${name} (${phone}):\nItem: ${item}\nDetails: ${msg}`;
+      console.log('Submitted Order:', submitText);
+
+      showToast(`Thanks, ${name}! Your request has been logged successfully. We'll be in touch!`);
+      this.reset();
+    });
+
+    function copyPhone() {
+      const phone = '+254700000000';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(phone).then(() => {
+          showToast('Phone number copied to clipboard!');
+        }, () => {
+          showToast('Phone: +254 700 000 000');
+        });
+      } else {
+        showToast('Phone: +254 700 000 000');
+      }
+    }
+
+    function subscribe() {
+      const email = document.getElementById('subscribeEmail').value.trim();
+      if (!email || !email.includes('@')) {
+        showToast('Please enter a valid email address.', true);
+        return;
+      }
+      showToast('Subscribed! Check your inbox for updates soon.');
+      document.getElementById('subscribeEmail').value = '';
+    }
+
+    // Scroll active link spy
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + 100;
+      document.querySelectorAll('section[id]').forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        const id = section.getAttribute('id');
+
+        if (scrollPos >= top && scrollPos < top + height) {
+          document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
