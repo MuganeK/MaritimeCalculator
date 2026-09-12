@@ -467,7 +467,12 @@ def render_route_planner():
         data=port_points,
         get_position="position",
         get_fill_color=[220, 50, 47],
-        get_radius=24000,
+        get_radius=4500,
+        radius_min_pixels=5,
+        radius_max_pixels=9,
+        stroked=True,
+        get_line_color=[255, 255, 255],
+        line_width_min_pixels=1,
         pickable=True,
     )
     label_layer = pdk.Layer(
