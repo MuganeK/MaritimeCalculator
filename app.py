@@ -440,6 +440,16 @@ def render_route_planner():
     st.table(fuel_summary)
 
     st.subheader("Visualized Transit Track")
+    map_style_name = st.selectbox(
+        "Map background",
+        ["Nautical light", "Nautical dark", "Voyager"],
+        help="Use a high-contrast basemap to make the route and port markers easier to read.",
+    )
+    map_styles = {
+        "Nautical light": "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+        "Nautical dark": "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+        "Voyager": "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
+    }
     track_points = build_voyage_track_points(route_ports)
     port_points = [
         {"position": [port["lon"], port["lat"]], "name": name}
@@ -449,26 +459,43 @@ def render_route_planner():
         "PathLayer",
         data=[{"path": [[point["lon"], point["lat"]] for point in track_points]}],
         get_path="path",
-        get_color=[0, 110, 220],
-        width_min_pixels=4,
+        get_color=[0, 121, 255],
+        width_min_pixels=6,
     )
     port_layer = pdk.Layer(
         "ScatterplotLayer",
         data=port_points,
         get_position="position",
         get_fill_color=[220, 50, 47],
-        get_radius=18000,
+        get_radius=24000,
         pickable=True,
     )
+    label_layer = pdk.Layer(
+        "TextLayer",
+        data=port_points,
+        get_position="position",
+        get_text="name",
+        get_size=16,
+        get_color=[20, 35, 55],
+        get_text_anchor="middle",
+        get_alignment_baseline="bottom",
+        get_pixel_offset=[0, -18],
+        pickable=False,
+    )
+    latitude_span = max(port["lat"] for port in route_ports) - min(port["lat"] for port in route_ports)
+    longitude_span = max(port["lon"] for port in route_ports) - min(port["lon"] for port in route_ports)
+    route_span = max(latitude_span, longitude_span, 1)
+    map_zoom = max(2, min(7, 5 - route_span / 35))
     view_state = pdk.ViewState(
         latitude=sum(port["lat"] for port in route_ports) / len(route_ports),
         longitude=sum(port["lon"] for port in route_ports) / len(route_ports),
-        zoom=3,
+        zoom=map_zoom,
     )
     st.pydeck_chart(
         pdk.Deck(
-            layers=[route_layer, port_layer],
+            layers=[route_layer, port_layer, label_layer],
             initial_view_state=view_state,
+            map_style=map_styles[map_style_name],
             tooltip={"text": "{name}"},
         ),
         use_container_width=True,
