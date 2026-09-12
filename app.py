@@ -569,6 +569,14 @@ def render_route_planner():
         for leg_waypoints in waypoints_by_leg
         for waypoint in leg_waypoints
     )
+    waypoint_points = [
+        {
+            "position": [waypoint["lon"], waypoint["lat"]],
+            "name": waypoint["name"],
+        }
+        for leg_waypoints in waypoints_by_leg
+        for waypoint in leg_waypoints
+    ]
     route_layer = pdk.Layer(
         "PathLayer",
         data=[{"path": [[point["lon"], point["lat"]] for point in track_points]}],
@@ -589,6 +597,19 @@ def render_route_planner():
         line_width_min_pixels=1,
         pickable=True,
     )
+    waypoint_layer = pdk.Layer(
+        "ScatterplotLayer",
+        data=waypoint_points,
+        get_position="position",
+        get_fill_color=[255, 165, 0],
+        get_radius=4500,
+        radius_min_pixels=6,
+        radius_max_pixels=10,
+        stroked=True,
+        get_line_color=[50, 35, 0],
+        line_width_min_pixels=2,
+        pickable=True,
+    )
     label_layer = pdk.Layer(
         "TextLayer",
         data=port_points,
@@ -599,6 +620,18 @@ def render_route_planner():
         get_text_anchor="middle",
         get_alignment_baseline="bottom",
         get_pixel_offset=[0, -18],
+        pickable=False,
+    )
+    waypoint_label_layer = pdk.Layer(
+        "TextLayer",
+        data=waypoint_points,
+        get_position="position",
+        get_text="name",
+        get_size=14,
+        get_color=[180, 95, 0],
+        get_text_anchor="middle",
+        get_alignment_baseline="bottom",
+        get_pixel_offset=[0, -20],
         pickable=False,
     )
     latitude_span = max(port["lat"] for port in route_ports) - min(port["lat"] for port in route_ports)
@@ -612,7 +645,7 @@ def render_route_planner():
     )
     st.pydeck_chart(
         pdk.Deck(
-            layers=[route_layer, port_layer, label_layer],
+            layers=[route_layer, port_layer, waypoint_layer, label_layer, waypoint_label_layer],
             initial_view_state=view_state,
             map_style=map_styles[map_style_name],
             tooltip={"text": "{name}"},
