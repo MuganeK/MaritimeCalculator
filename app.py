@@ -270,7 +270,7 @@ def render_route_planner():
     with settings_col1:
         consumption_lph = st.number_input("Consumption (L/hour)", min_value=0.1, value=1750.0, step=50.0)
     with settings_col2:
-        fuel_price = st.number_input("Fuel Price (KES/L)", min_value=0.0, value=218.0, step=1.0)
+        fuel_price = st.number_input("Fuel Price (USD/L)", min_value=0.0, value=218.0, step=1.0)
     with settings_col3:
         reserve_percent = st.number_input("Fuel Reserve (%)", min_value=0.0, max_value=100.0, value=10.0, step=1.0)
     with settings_col4:
@@ -411,7 +411,7 @@ def render_route_planner():
         f"Zone: {metrics['eta'].tzname()}",
     )
     metric_row_two[1].metric("Fuel incl. reserve", f"{metrics['fuel_litres']:,.0f} L")
-    metric_row_two[2].metric("Fuel cost", f"KES {metrics['fuel_cost_kes']:,.2f}")
+    metric_row_two[2].metric("Fuel cost", f"${metrics['fuel_cost_usd']:,.2f}")
 
     st.subheader("Voyage Legs")
     leg_summary = pd.DataFrame([
@@ -433,8 +433,8 @@ def render_route_planner():
         {"Item": "Base voyage fuel", "Amount": f"{metrics['base_fuel_litres']:,.2f} L"},
         {"Item": f"Fuel reserve ({reserve_percent:.0f}%)", "Amount": f"{metrics['reserve_litres']:,.2f} L"},
         {"Item": "Total fuel required", "Amount": f"{metrics['fuel_litres']:,.2f} L"},
-        {"Item": "Fuel price", "Amount": f"KES {fuel_price:,.2f} / L"},
-        {"Item": "Total estimated fuel cost", "Amount": f"KES {metrics['fuel_cost_kes']:,.2f}"},
+        {"Item": "Fuel price", "Amount": f"${fuel_price:,.2f} / L"},
+        {"Item": "Total estimated fuel cost", "Amount": f"${metrics['fuel_cost_usd']:,.2f}"},
     ])
     st.table(fuel_summary)
 

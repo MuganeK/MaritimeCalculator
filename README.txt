@@ -19,7 +19,7 @@ FEATURES
 - Target ETA planning by specific date/time or whole voyage days.
 - Automatic average-speed calculation for target schedules.
 - Fuel consumption, reserve, and total cost estimates.
-- Fuel prices and costs displayed in Kenyan shillings (KES).
+- Fuel prices and costs displayed in US dollars (USD).
 - Interactive route map and leg-by-leg voyage summary.
 - Training roster and four-hour watchbill generation.
 - Downloadable watchbill CSV output.
@@ -89,7 +89,7 @@ ROUTE PLANNING
 3. Select each port of call in the desired order.
 4. Enter stay days for each stopover.
 5. Select the final destination. It may be the origin for a return voyage.
-6. Set speed, fuel consumption, fuel price in KES/L, and reserve percentage.
+6. Set speed, fuel consumption, fuel price in USD/L, and reserve percentage.
 7. Set the origin ETD date, time, and maritime time zone.
 8. Optionally enable independent departure scheduling for each stopover.
 9. Choose either calculated ETA or target ETA planning.
@@ -143,7 +143,7 @@ Marka (Merca), Eyl, Lamu, Malindi, Tanga, Pemba Island, Moroni, and Port Louis.
 
 IMPORTANT NOTES
 ---------------
-- Fuel price is treated as Kenyan shillings per litre (KES/L).
+- Fuel price is treated as US dollars per litre (USD/L).
 - Fuel consumption applies to sailing time; time spent stopped in port does not
   consume voyage fuel in the current model.
 - Target ETA planning calculates an average speed for the sailing distance.
