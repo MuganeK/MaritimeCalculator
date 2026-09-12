@@ -267,7 +267,7 @@ def build_voyage_track_points(ports, segments_per_leg=24, waypoints_by_leg=None)
     for leg_index, (origin, destination) in enumerate(zip(ports, ports[1:])):
         leg_points = [origin, *waypoints_by_leg[leg_index], destination]
         leg_track = []
-        for point_index, (segment_origin, segment_destination) in enumerate(zip(leg_points, leg_points[1:])):
+        for segment_origin, segment_destination in zip(leg_points, leg_points[1:]):
             segment_track = build_track_points(segment_origin, segment_destination, segments_per_leg)
             leg_track.extend(segment_track if not leg_track else segment_track[1:])
         track.extend(leg_track if not track else leg_track[1:])
@@ -331,7 +331,7 @@ def render_route_planner():
     with settings_col1:
         consumption_lph = st.number_input("Consumption (L/hour)", min_value=0.1, value=1750.0, step=50.0)
     with settings_col2:
-        fuel_price = st.number_input("Fuel Price (USD/L)", min_value=0.0, value=218.0, step=1.0)
+        fuel_price = st.number_input("Fuel Price (KES/L)", min_value=0.0, value=218.0, step=1.0)
     with settings_col3:
         reserve_percent = st.number_input("Fuel Reserve (%)", min_value=0.0, max_value=100.0, value=10.0, step=1.0)
     with settings_col4:
@@ -561,19 +561,8 @@ def render_route_planner():
         {"position": [port["lon"], port["lat"]], "name": name}
         for name, port in zip(route_names, route_ports)
     ]
-    port_points.extend(
-        {
-            "position": [waypoint["lon"], waypoint["lat"]],
-            "name": waypoint["name"],
-        }
-        for leg_waypoints in waypoints_by_leg
-        for waypoint in leg_waypoints
-    )
     waypoint_points = [
-        {
-            "position": [waypoint["lon"], waypoint["lat"]],
-            "name": waypoint["name"],
-        }
+        {"position": [waypoint["lon"], waypoint["lat"]], "name": waypoint["name"]}
         for leg_waypoints in waypoints_by_leg
         for waypoint in leg_waypoints
     ]
