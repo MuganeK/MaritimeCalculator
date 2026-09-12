@@ -18,6 +18,7 @@ FEATURES
 - Stay duration in whole days at each stopover.
 - Target ETA planning by specific date/time or whole voyage days.
 - Automatic average-speed calculation for target schedules.
+- Manual course-change waypoints for planning around hazards or land masses.
 - Fuel consumption, reserve, and total cost estimates.
 - Fuel prices and costs displayed in US dollars (USD).
 - Interactive route map and leg-by-leg voyage summary.
@@ -93,6 +94,8 @@ ROUTE PLANNING
 7. Set the origin ETD date, time, and maritime time zone.
 8. Optionally enable independent departure scheduling for each stopover.
 9. Choose either calculated ETA or target ETA planning.
+10. Add navigation waypoints on the final leg when the direct line is unsafe;
+   verify every waypoint against official nautical charts before sailing.
 
 When independent departure scheduling is enabled, enter the departure date,
 time, and time zone for that port. Otherwise, the next departure is calculated
@@ -148,4 +151,7 @@ IMPORTANT NOTES
 - Fuel consumption applies to sailing time; time spent stopped in port does not
   consume voyage fuel in the current model.
 - Target ETA planning calculates an average speed for the sailing distance.
+- Navigation waypoints are planning aids, not certified collision avoidance or
+   chart data. Always validate routes against current official nautical charts,
+   notices to mariners, depth information, traffic, weather, and local rules.
 - Port coordinates and time zones are stored in app.py and nautical_calc.py.

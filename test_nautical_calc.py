@@ -178,3 +178,24 @@ def test_build_voyage_track_points_joins_stopovers_once():
     assert track[0] == {"lat": 0.0, "lon": 0.0}
     assert track[2] == {"lat": 0.0, "lon": 1.0}
     assert track[-1] == {"lat": 1.0, "lon": 1.0}
+
+
+def test_build_voyage_metrics_includes_navigation_waypoints():
+    ports = [
+        {"name": "Origin", "lat": 0.0, "lon": 0.0, "tz": "UTC"},
+        {"name": "Destination", "lat": 0.0, "lon": 2.0, "tz": "UTC"},
+    ]
+    waypoint = {"name": "Course change", "lat": 1.0, "lon": 1.0, "tz": "UTC"}
+    departure = datetime(2026, 1, 1, 8, 0, tzinfo=timezone.utc)
+
+    direct = app.build_voyage_metrics(ports, 10, departure_time=departure)
+    detour = app.build_voyage_metrics(
+        ports,
+        10,
+        departure_time=departure,
+        waypoints_by_leg=[[waypoint]],
+    )
+
+    assert detour["distance_nm"] > direct["distance_nm"]
+    assert detour["legs"][0]["waypoints"] == [waypoint]
+    assert detour["eta"] > direct["eta"]

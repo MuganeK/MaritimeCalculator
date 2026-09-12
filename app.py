@@ -116,6 +116,56 @@ def build_route_metrics(
     }
 
 
+def build_navigation_leg_metrics(
+    origin,
+    destination,
+    waypoints,
+    speed,
+    fuel_price_per_litre,
+    consumption_lph,
+    reserve_percent,
+    departure_time,
+):
+    points = [origin, *waypoints, destination]
+    segment_metrics = []
+    segment_departure = departure_time
+    for segment_origin, segment_destination in zip(points, points[1:]):
+        segment = build_route_metrics(
+            segment_origin,
+            {**segment_destination, "tz": destination["tz"]},
+            speed,
+            fuel_price_per_litre,
+            consumption_lph,
+            reserve_percent,
+            segment_departure,
+        )
+        segment_metrics.append(segment)
+        segment_departure = segment["eta"]
+
+    duration_hours = sum(segment["duration_hours"] for segment in segment_metrics)
+    distance_nm = round(sum(segment["distance_nm"] for segment in segment_metrics), 2)
+    base_fuel = round(sum(segment["base_fuel_litres"] for segment in segment_metrics), 2)
+    reserve_fuel = round(sum(segment["reserve_litres"] for segment in segment_metrics), 2)
+    total_fuel = round(base_fuel + reserve_fuel, 2)
+    days_v = int(duration_hours // 24)
+    hours_v = int(duration_hours % 24)
+    minutes_v = int((duration_hours * 60) % 60)
+
+    return {
+        "distance_nm": distance_nm,
+        "course": segment_metrics[0]["course"],
+        "duration_hours": duration_hours,
+        "eta": segment_metrics[-1]["eta"],
+        "transit_duration": f"{days_v}d {hours_v}h {minutes_v}m",
+        "base_fuel_litres": base_fuel,
+        "reserve_litres": reserve_fuel,
+        "fuel_litres": total_fuel,
+        "fuel_cost_kes": estimate_fuel_cost(total_fuel, fuel_price_per_litre),
+        "fuel_cost_usd": estimate_fuel_cost(total_fuel, fuel_price_per_litre),
+        "waypoints": waypoints,
+    }
+
+
 def build_voyage_metrics(
     ports,
     speed,
@@ -125,6 +175,7 @@ def build_voyage_metrics(
     departure_time=None,
     layover_days=None,
     departure_times=None,
+    waypoints_by_leg=None,
 ):
     if len(ports) < 2:
         raise ValueError("A voyage requires an origin and destination port")
@@ -137,13 +188,17 @@ def build_voyage_metrics(
     departure_times = departure_times or [None] * max(len(ports) - 2, 0)
     if len(departure_times) != len(ports) - 2:
         raise ValueError("Provide one departure time for each stopover")
+    waypoints_by_leg = waypoints_by_leg or [[] for _ in range(len(ports) - 1)]
+    if len(waypoints_by_leg) != len(ports) - 1:
+        raise ValueError("Provide navigation waypoints for each voyage leg")
 
     for leg_number, (origin, destination) in enumerate(zip(ports, ports[1:]), start=1):
         if leg_number > 1 and departure_times[leg_number - 2] is not None:
             current_departure = departure_times[leg_number - 2]
-        leg = build_route_metrics(
+        leg = build_navigation_leg_metrics(
             origin,
             destination,
+            waypoints_by_leg[leg_number - 1],
             speed,
             fuel_price_per_litre,
             consumption_lph,
@@ -206,10 +261,15 @@ def build_track_points(origin, destination, segments=24):
     ]
 
 
-def build_voyage_track_points(ports, segments_per_leg=24):
+def build_voyage_track_points(ports, segments_per_leg=24, waypoints_by_leg=None):
     track = []
-    for origin, destination in zip(ports, ports[1:]):
-        leg_track = build_track_points(origin, destination, segments_per_leg)
+    waypoints_by_leg = waypoints_by_leg or [[] for _ in range(len(ports) - 1)]
+    for leg_index, (origin, destination) in enumerate(zip(ports, ports[1:])):
+        leg_points = [origin, *waypoints_by_leg[leg_index], destination]
+        leg_track = []
+        for point_index, (segment_origin, segment_destination) in enumerate(zip(leg_points, leg_points[1:])):
+            segment_track = build_track_points(segment_origin, segment_destination, segments_per_leg)
+            leg_track.extend(segment_track if not leg_track else segment_track[1:])
         track.extend(leg_track if not track else leg_track[1:])
     return track
 
@@ -291,6 +351,47 @@ def render_route_planner():
     )
     route_names = [origin_name, *selected_stopovers, dest_name]
     route_ports = [{**PORT_DATABASE[name], "name": name} for name in route_names]
+
+    waypoints_by_leg = [[] for _ in range(len(route_ports) - 1)]
+    waypoint_count = st.number_input(
+        "Navigation Waypoints on Final Leg",
+        min_value=0,
+        max_value=4,
+        value=0,
+        step=1,
+        help="Add course-change points to route around hazards or land. Verify every point against official nautical charts.",
+    )
+    if waypoint_count:
+        st.warning("Manual waypoints change the planned course. This is not a certified collision-avoidance or navigational-chart system.")
+        waypoint_columns = st.columns(min(int(waypoint_count), 2))
+        final_leg_waypoints = []
+        for index in range(int(waypoint_count)):
+            with waypoint_columns[index % len(waypoint_columns)]:
+                waypoint_lat = st.number_input(
+                    f"Waypoint {index + 1} latitude",
+                    min_value=-90.0,
+                    max_value=90.0,
+                    value=float(route_ports[-2]["lat"]),
+                    step=0.1,
+                    key=f"waypoint_lat_{index}",
+                )
+                waypoint_lon = st.number_input(
+                    f"Waypoint {index + 1} longitude",
+                    min_value=-180.0,
+                    max_value=180.0,
+                    value=float(route_ports[-2]["lon"]),
+                    step=0.1,
+                    key=f"waypoint_lon_{index}",
+                )
+            final_leg_waypoints.append(
+                {
+                    "name": f"Navigation waypoint {index + 1}",
+                    "lat": waypoint_lat,
+                    "lon": waypoint_lon,
+                    "tz": route_ports[-1]["tz"],
+                }
+            )
+        waypoints_by_leg[-1] = final_leg_waypoints
 
     independent_departures = []
     if selected_stopovers:
@@ -378,12 +479,16 @@ def render_route_planner():
         planned_duration_hours = (planned_eta - departure_time.astimezone(planned_eta.tzinfo)).total_seconds() / 3600
         planned_distance = sum(
             calculate_distance_and_course(
-                origin_port["lat"],
-                origin_port["lon"],
-                destination_port["lat"],
-                destination_port["lon"],
+                segment_origin["lat"],
+                segment_origin["lon"],
+                segment_destination["lat"],
+                segment_destination["lon"],
             )[0]
-            for origin_port, destination_port in zip(route_ports, route_ports[1:])
+            for leg_index, (origin_port, destination_port) in enumerate(zip(route_ports, route_ports[1:]))
+            for segment_origin, segment_destination in zip(
+                [origin_port, *waypoints_by_leg[leg_index], destination_port],
+                [*waypoints_by_leg[leg_index], destination_port],
+            )
         )
         speed = round(planned_distance / planned_duration_hours, 2)
         st.info(f"Required average speed for this schedule: {speed:.2f} knots")
@@ -397,6 +502,7 @@ def render_route_planner():
         departure_time,
         stopover_stay_days,
         independent_departures,
+        waypoints_by_leg,
     )
 
     metric_row_one = st.columns(3)
@@ -450,11 +556,19 @@ def render_route_planner():
         "Nautical dark": "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
         "Voyager": "https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json",
     }
-    track_points = build_voyage_track_points(route_ports)
+    track_points = build_voyage_track_points(route_ports, waypoints_by_leg=waypoints_by_leg)
     port_points = [
         {"position": [port["lon"], port["lat"]], "name": name}
         for name, port in zip(route_names, route_ports)
     ]
+    port_points.extend(
+        {
+            "position": [waypoint["lon"], waypoint["lat"]],
+            "name": waypoint["name"],
+        }
+        for leg_waypoints in waypoints_by_leg
+        for waypoint in leg_waypoints
+    )
     route_layer = pdk.Layer(
         "PathLayer",
         data=[{"path": [[point["lon"], point["lat"]] for point in track_points]}],
