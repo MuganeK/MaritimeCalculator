@@ -35,11 +35,11 @@ PORT_DATABASE = {
 }
 
 DEFAULT_STUDENTS = [
-    {"MIDN": "Mugane, J.", "Watch Status": "Off-Duty", "Helm Tasks": "Complete", "Nav Tasks": "Pending"},
-    {"MIDN": "Kamau, A.", "Watch Status": "Off-Duty", "Helm Tasks": "Pending", "Nav Tasks": "Complete"},
-    {"MIDN": "Otieno, P.", "Watch Status": "Off-Duty", "Helm Tasks": "Pending", "Nav Tasks": "Pending"},
-    {"MIDN": "Ali, S.", "Watch Status": "Off-Duty", "Helm Tasks": "Complete", "Nav Tasks": "Complete"},
-    {"MIDN": "Njoroge, M.", "Watch Status": "Off-Duty", "Helm Tasks": "Pending", "Nav Tasks": "Pending"},
+    {"MIDN": "Student 01", "Watch Status": "Off-Duty", "Helm Tasks": "Complete", "Nav Tasks": "Pending"},
+    {"MIDN": "Student 02", "Watch Status": "Off-Duty", "Helm Tasks": "Pending", "Nav Tasks": "Complete"},
+    {"MIDN": "Student 03", "Watch Status": "Off-Duty", "Helm Tasks": "Pending", "Nav Tasks": "Pending"},
+    {"MIDN": "Student 04", "Watch Status": "Off-Duty", "Helm Tasks": "Complete", "Nav Tasks": "Complete"},
+    {"MIDN": "Student 05", "Watch Status": "Off-Duty", "Helm Tasks": "Pending", "Nav Tasks": "Pending"},
 ]
 WATCH_STATIONS = [
     "Bridge Watch Officer (Instructor)",

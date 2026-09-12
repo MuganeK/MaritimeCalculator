@@ -16,11 +16,11 @@ st.markdown("---")
 # 1. Initialize Student Roster Data in System Session Memory
 if 'students' not in st.session_state:
     st.session_state.students = [
-        {"MIDN": "Mugane, J.", "Watch Status": "Off-Duty", "Helmo Tasks": "Complete", "Nav Tasks": "Pending"},
-        {"MIDN": "Kamau, A.", "Watch Status": "Off-Duty", "Helmo Tasks": "Pending", "Nav Tasks": "Complete"},
-        {"MIDN": "Otieno, P.", "Watch Status": "Off-Duty", "Helmo Tasks": "Pending", "Nav Tasks": "Pending"},
-        {"MIDN": "Ali, S.", "Watch Status": "Off-Duty", "Helmo Tasks": "Complete", "Nav Tasks": "Complete"},
-        {"MIDN": "Njoroge, M.", "Watch Status": "Off-Duty", "Helmo Tasks": "Pending", "Nav Tasks": "Pending"},
+        {"MIDN": "Student 01", "Watch Status": "Off-Duty", "Helmo Tasks": "Complete", "Nav Tasks": "Pending"},
+        {"MIDN": "Student 02", "Watch Status": "Off-Duty", "Helmo Tasks": "Pending", "Nav Tasks": "Complete"},
+        {"MIDN": "Student 03", "Watch Status": "Off-Duty", "Helmo Tasks": "Pending", "Nav Tasks": "Pending"},
+        {"MIDN": "Student 04", "Watch Status": "Off-Duty", "Helmo Tasks": "Complete", "Nav Tasks": "Complete"},
+        {"MIDN": "Student 05", "Watch Status": "Off-Duty", "Helmo Tasks": "Pending", "Nav Tasks": "Pending"},
     ]
 
 # Layout Split
